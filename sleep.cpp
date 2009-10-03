@@ -42,18 +42,23 @@ int main(int argc, char *argv[])
     if (argc != 2)
     {
         usage();
+        return RESULT_ERROR;
     }
     else
     {
         if( strcmp(argv[1], "/help") == 0 || strcmp(argv[1], "/?") == 0 )
+        {
             help();
+            return RESULT_OK;
+        }
         else
-            parse(argv[1]);
+        {
+            return parse(argv[1]);
+        }
     }
-    return (0);
 }
 
-void parse(const char *arg)
+Result parse(const char *arg)
 {
     size_t length = strlen( arg );
     char *chopped = new char[length + 1];
@@ -64,19 +69,19 @@ void parse(const char *arg)
     switch( last )
     {
     case 's' :
-        sleep( chopped );
+        return sleep( chopped );
         break;
     case 'm' :
-        sleep( chopped, 60 );
+        return sleep( chopped, 60 );
         break;
     case 'h' :
-        sleep( chopped, 60*60 );
+        return sleep( chopped, 60*60 );
         break;
     case 'd' :
-        sleep( chopped, 60*60*24 );
+        return sleep( chopped, 60*60*24 );
         break;
     default:
-        sleep( arg );
+        return sleep( arg );
         break;
     }
 }
@@ -90,16 +95,18 @@ bool is_integer(const char *str)
     return true;
 }
 
-void sleep(const char *arg, int multiplier)
+Result sleep(const char *arg, int multiplier)
 {
     if( !is_integer(arg) )
     {
         wrong_parameter( arg );
+        return RESULT_ERROR;
     }
     else
     {
         int n = atoi(arg);
         Sleep(n*1000*multiplier);
+        return RESULT_OK;
     }
 }
 

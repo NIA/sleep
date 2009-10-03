@@ -5,6 +5,14 @@
 
 #pragma warning(disable : 4996)
 
+enum Result
+{
+    RESULT_OK, RESULT_ERROR
+};
+
 bool is_integer(const char *str);       // Checks whether given string contains an integer number
-void parse(const char *arg);            // Parses given string and calls sleep with proper arguments
-void sleep(const char *arg, int multiplier = 1);  // Converts string into number and sleeps arg * multiplier seconds
+
+// Parses given string and calls sleep with proper arguments
+Result parse(const char *arg);
+// Converts string into number and sleeps arg * multiplier seconds
+Result sleep(const char *arg, int multiplier = 1);
