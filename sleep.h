@@ -10,9 +10,11 @@ enum Result
     RESULT_OK, RESULT_ERROR
 };
 
-bool is_integer(const char *str);       // Checks whether given string contains an integer number
+// Checks whether given string represents an integer number
+bool is_integer(const char *str);
 
 // Parses given string and calls sleep with proper arguments
 Result parse(const char *arg);
+
 // Converts string into number and sleeps arg * multiplier seconds
 Result sleep(const char *arg, int multiplier = 1);

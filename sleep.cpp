@@ -1,7 +1,6 @@
 #include "sleep.h"
 
 // Printing messages:
-// TODO: print to stderr
 
 inline void try_help()
 {
@@ -37,6 +36,7 @@ inline void help()
             "(C) Ivan Novikov, 2009\n" );
 }
 
+// Main
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -58,34 +58,33 @@ int main(int argc, char *argv[])
     }
 }
 
+// Parses given string and calls sleep with proper arguments
 Result parse(const char *arg)
 {
     size_t length = strlen( arg );
+
+    // chop last character
     char *chopped = new char[length + 1];
     strcpy( chopped, arg );
-    chopped[length-1] = 0; // chop last character
+    chopped[length-1] = 0;
 
     char last = arg[length-1];
     switch( last )
     {
     case 's' :
         return sleep( chopped );
-        break;
     case 'm' :
         return sleep( chopped, 60 );
-        break;
     case 'h' :
         return sleep( chopped, 60*60 );
-        break;
     case 'd' :
         return sleep( chopped, 60*60*24 );
-        break;
     default:
         return sleep( arg );
-        break;
     }
 }
 
+// Checks whether given string represents an integer number
 bool is_integer(const char *str)
 {
     size_t length = strlen( str );
@@ -95,6 +94,7 @@ bool is_integer(const char *str)
     return true;
 }
 
+// Converts string into number and sleeps for arg * multiplier seconds
 Result sleep(const char *arg, int multiplier)
 {
     if( !is_integer(arg) )
