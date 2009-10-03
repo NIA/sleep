@@ -5,18 +5,18 @@
 
 inline void try_help()
 {
-    printf("Try sleep --help for more information\n");
+    fprintf(stderr, "Try sleep --help for more information\n");
 }
 
 inline void usage()
 {
-    printf("Usage: sleep number[suffix]\nExample: sleep 5m\n");
+    fprintf(stderr, "Usage: sleep number[suffix]\nExample: sleep 5m\n");
     try_help();
 }
 
 inline void wrong_parameter(const char *param)
 {
-    printf("sleep: wrong time interval value: `%s'\n", param);
+    fprintf(stderr, "sleep: wrong time interval value: `%s'\n", param);
     try_help();
 }
 
