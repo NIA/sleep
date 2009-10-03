@@ -1,11 +1,55 @@
 #include "sleep.h"
 
+// Printing messages:
+// TODO: print to stderr
+
+inline void try_help()
+{
+    printf("Try sleep --help for more information\n");
+}
+
+inline void usage()
+{
+    printf("Usage: sleep number[suffix]\nExample: sleep 5m\n");
+    try_help();
+}
+
+inline void wrong_parameter(const char *param)
+{
+    printf("sleep: wrong time interval value: `%s'\n", param);
+    try_help();
+}
+
+inline void help()
+{
+    printf( "sleep.exe, an analog of UNIX sleep program\n"
+            "Pauses execution for given time\n\n"
+            "Usage: sleep number[suffix]\n"
+            "       sleep /help\n\n"
+            "  nubmer      the length of time interval, in seconds, minutes, hours or days, depending on suffix\n"
+            "  suffix      unit of time. Can be:\n"
+            "                s  - seconds\n"
+            "                m  - minutes\n"
+            "                h  - hours\n"
+            "                d  - days\n"
+            "              may be omitted, default is s\n"
+            "  /help (/?)  prints this message and exits\n\n"
+            "(C) Ivan Novikov, 2009\n" );
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
+    {
         usage();
+    }
     else
-        parse(argv[1]);
+    {
+        if( strcmp(argv[1], "/help") == 0 || strcmp(argv[1], "/?") == 0 )
+            help();
+        else
+            parse(argv[1]);
+    }
     return (0);
 }
 
@@ -59,16 +103,3 @@ void sleep(const char *arg, int multiplier)
     }
 }
 
-// Printing messages:
-// TODO: print to stderr
-
-void usage()
-{
-    printf("Usage: sleep number[suffix]\nExample: sleep 5m");
-}
-
-void wrong_parameter(const char *param)
-{
-    printf("sleep: wrong time interval value: `%s'", param);
-    // TODO: print 'try --help blah blah blah'
-}
