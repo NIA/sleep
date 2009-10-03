@@ -5,8 +5,36 @@ int main(int argc, char *argv[])
     if (argc != 2)
         usage();
     else
-        sleep(argv[1]);
+        parse(argv[1]);
     return (0);
+}
+
+void parse(const char *arg)
+{
+    size_t length = strlen( arg );
+    char *chopped = new char[length + 1];
+    strcpy( chopped, arg );
+    chopped[length-1] = 0; // chop last character
+
+    char last = arg[length-1];
+    switch( last )
+    {
+    case 's' :
+        sleep( chopped );
+        break;
+    case 'm' :
+        sleep( chopped, 60 );
+        break;
+    case 'h' :
+        sleep( chopped, 60*60 );
+        break;
+    case 'd' :
+        sleep( chopped, 60*60*24 );
+        break;
+    default:
+        sleep( arg );
+        break;
+    }
 }
 
 bool is_integer(const char *str)
@@ -18,19 +46,25 @@ bool is_integer(const char *str)
     return true;
 }
 
-void sleep(const char *arg)
+void sleep(const char *arg, int multiplier)
 {
-    int n = atoi(arg);
-    if( n == 0 && !is_integer(arg) )
+    if( !is_integer(arg) )
+    {
         wrong_parameter( arg );
-    Sleep(n*1000);
+    }
+    else
+    {
+        int n = atoi(arg);
+        Sleep(n*1000*multiplier);
+    }
 }
 
 // Printing messages:
+// TODO: print to stderr
 
 void usage()
 {
-    printf("Usage: sleep number\nExample: sleep 5");
+    printf("Usage: sleep number[suffix]\nExample: sleep 5m");
 }
 
 void wrong_parameter(const char *param)
